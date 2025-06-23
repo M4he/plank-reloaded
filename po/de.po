@@ -367,9 +367,29 @@ msgstr "CPU Überwachung"
 msgid "Keep an eye on that CPU. And when it gets out of line..."
 msgstr "Behalten Sie die CPU im Auge. Und wenn sie aus der Reihe tanzt…"
 
-#: docklets/Desktop/DesktopDockItem.vala:45
+#: docklets/Desktop/DesktopDockItem.vala:61
 msgid "Show Desktop"
 msgstr "Zeige Desktop"
+
+#: docklets/Desktop/DesktopDockItem.vala:181
+msgid "_Reversed workspace order in menu"
+msgstr "_Umgekehrte Arbeitsflächenreihenfolge im Menü"
+
+#: docklets/Desktop/DesktopDockItem.vala:210
+msgid "_Wrap around when scrolling"
+msgstr "_Kontinuierliches Scrollen"
+
+#: docklets/Desktop/DesktopDockItem.vala:219
+msgid "_Scroll to switch workspaces"
+msgstr "_Scrollen wechselt Arbeitsfläche"
+
+#: docklets/Desktop/DesktopDockItem.vala:201
+msgid "_Invert scrolling direction"
+msgstr "Scroll_richtung umkehren"
+
+#: docklets/Desktop/DesktopDockItem.vala:219
+msgid "_Settings"
+msgstr "_Einstellungen"
 
 #: docklets/Desktop/DesktopDocklet.vala:33
 msgid "Desktop"
@@ -425,7 +445,7 @@ msgstr "Werfen Sie einen Blick auf Ihren Papierkorb!"
 #: docklets/Separator/SeparatorDockItem.vala:197
 #: docklets/Workspaces/WorkspacesDockItem.vala:560
 msgid "_Invert Color"
-msgstr ""
+msgstr "_Farben invertieren"
 
 #: docklets/Separator/SeparatorDocklet.vala:28
 msgid "Separator"
@@ -443,23 +463,24 @@ msgstr ""
 #: docklets/Workspaces/WorkspacesDockItem.vala:48
 #: docklets/Workspaces/WorkspacesDocklet.vala:47
 msgid "Workspaces"
-msgstr ""
+msgstr "Arbeitsflächen"
 
 #: docklets/Workspaces/WorkspacesDockItem.vala:177
 #: docklets/Workspaces/WorkspacesDockItem.vala:203
 #: docklets/Workspaces/WorkspacesDockItem.vala:215
+#: docklets/Desktop/DesktopDockItem.vala:104
 #, c-format
 msgid "Workspace %d of %d"
-msgstr ""
+msgstr "Arbeitsfläche %d von %d"
 
 #: docklets/Workspaces/WorkspacesDockItem.vala:538
 #, c-format
 msgid "Workspace %d"
-msgstr ""
+msgstr "Arbeitsfläche %d"
 
 #: docklets/Workspaces/WorkspacesDockItem.vala:567
 msgid "_Live Previews"
-msgstr ""
+msgstr "_Live-Vorschau"
 
 #. *
 #. * Returns the description of this docklet.
@@ -468,7 +489,7 @@ msgstr ""
 #.
 #: docklets/Workspaces/WorkspacesDocklet.vala:54
 msgid "A graphical workspace switcher."
-msgstr ""
+msgstr "Ein grafischer Arbeitsflächenwechsler"
 
 #: lib/DragManager.vala:457 lib/Items/PlaceholderDockItem.vala:51
 msgid "Drop to add to dock"
