@@ -22,6 +22,7 @@ namespace Docky {
     private const string ICON_NAME = "show-desktop";
     private const string ICON_RESOURCE = "resource://" + G_RESOURCE_PATH + "/icons/show-desktop.svg";
     private const string ICON_PATH = ICON_NAME + ";;" + ICON_RESOURCE;
+    private ulong scroll_action_handler_id = 0;
     private int workspace_count = 0;
     private int current_workspace = 0;
 
@@ -41,11 +42,26 @@ namespace Docky {
       initialize_item();
       initialize_wnck();
       setup_workspace_info();
+
+      scroll_action_handler_id = desktop_prefs.notify["EnableScrolling"].connect (() => {
+        if (desktop_prefs.EnableScrolling) {
+          Text = _("Workspace %d of %d").printf (current_workspace + 1, workspace_count);
+        } else {
+          Text = _("Show Desktop");
+        }
+      });
+
       connect_screen_signals();
     }
 
     ~DesktopDockItem() {
       screen = null;
+
+      if (scroll_action_handler_id > 0) {
+        desktop_prefs.disconnect (scroll_action_handler_id);
+        scroll_action_handler_id = 0;
+      }
+
       disconnect_screen_signals();
     }
 
@@ -71,7 +87,9 @@ namespace Docky {
       current_workspace = screen.get_active_workspace () ? .get_number () ?? 0;
       workspace_count = screen.get_workspace_count ();
 
-      Text = _("Workspace %d of %d").printf (current_workspace + 1, workspace_count);
+      if (desktop_prefs.EnableScrolling) {
+        Text = _("Workspace %d of %d").printf (current_workspace + 1, workspace_count);
+      }
     }
 
     [CCode (instance_pos = -1)]
@@ -88,7 +106,7 @@ namespace Docky {
           changed = true;
         }
 
-        if (changed) {
+        if (changed && desktop_prefs.EnableScrolling) {
           Text = _("Workspace %d of %d").printf (current_workspace + 1, workspace_count);
         }
       }
@@ -180,6 +198,7 @@ namespace Docky {
 
       var reversed_menu_order = new Gtk.CheckMenuItem.with_mnemonic (_("_Reversed workspace order in menu"));
       reversed_menu_order.active = desktop_prefs.ReversedMenuOrder;
+      reversed_menu_order.sensitive = screen.get_workspace_count () > 1;
       reversed_menu_order.activate.connect (() => {
         desktop_prefs.ReversedMenuOrder = !desktop_prefs.ReversedMenuOrder;
       });
