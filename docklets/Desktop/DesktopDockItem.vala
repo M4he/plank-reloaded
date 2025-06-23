@@ -175,28 +175,45 @@ namespace Docky {
       var items = new Gee.ArrayList<Gtk.MenuItem> ();
       unowned Wnck.Screen screen = Wnck.Screen.get_default ();
 
-      var scroll_action = new Gtk.CheckMenuItem.with_mnemonic (_("_Enable scroll action"));
+      var settings_item = new Gtk.MenuItem ();
+      var settings_menu = new Gtk.Menu ();
+
+      var scroll_action = new Gtk.CheckMenuItem.with_mnemonic (_("_Scroll to switch workspaces"));
       scroll_action.active = desktop_prefs.EnableScrolling;
       scroll_action.activate.connect (() => {
         desktop_prefs.EnableScrolling = !desktop_prefs.EnableScrolling;
       });
-      items.add (scroll_action);
+      scroll_action.show ();
+      settings_menu.add (scroll_action);
 
-      var invert_scroll = new Gtk.CheckMenuItem.with_mnemonic (_("_Invert scrolling"));
+      var invert_scroll = new Gtk.CheckMenuItem.with_mnemonic (_("_Invert scrolling direction"));
       invert_scroll.active = desktop_prefs.InvertDirection;
       invert_scroll.sensitive = desktop_prefs.EnableScrolling;
       invert_scroll.activate.connect (() => {
         desktop_prefs.InvertDirection = !desktop_prefs.InvertDirection;
       });
-      items.add (invert_scroll);
+      invert_scroll.show ();
+      settings_menu.add (invert_scroll);
 
-      var wrap_around = new Gtk.CheckMenuItem.with_mnemonic (_("_Wrap around"));
+      var wrap_around = new Gtk.CheckMenuItem.with_mnemonic (_("_Wrap around when scrolling"));
       wrap_around.active = desktop_prefs.WrapAround;
       wrap_around.sensitive = desktop_prefs.EnableScrolling;
       wrap_around.activate.connect (() => {
         desktop_prefs.WrapAround = !desktop_prefs.WrapAround;
       });
-      items.add (wrap_around);
+      wrap_around.show ();
+      settings_menu.add (wrap_around);
+
+      var settings_label = new Gtk.Label.with_mnemonic (_("_Settings"));
+      settings_label.halign = Gtk.Align.START;
+      settings_label.valign = Gtk.Align.CENTER;
+      settings_item.add (settings_label);
+      settings_item.show_all ();
+
+      settings_item.submenu = settings_menu;
+      settings_menu.show ();
+
+      items.add (settings_item);
 
       var separator_item = new Gtk.SeparatorMenuItem ();
       items.add (separator_item);
