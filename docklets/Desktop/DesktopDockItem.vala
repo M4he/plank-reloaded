@@ -178,6 +178,18 @@ namespace Docky {
       var settings_item = new Gtk.MenuItem ();
       var settings_menu = new Gtk.Menu ();
 
+      var reversed_menu_order = new Gtk.CheckMenuItem.with_mnemonic (_("_Reversed workspace order in menu"));
+      reversed_menu_order.active = desktop_prefs.ReversedMenuOrder;
+      reversed_menu_order.activate.connect (() => {
+        desktop_prefs.ReversedMenuOrder = !desktop_prefs.ReversedMenuOrder;
+      });
+      reversed_menu_order.show ();
+      settings_menu.add (reversed_menu_order);
+
+      var submenu_separator_item = new Gtk.SeparatorMenuItem ();
+      submenu_separator_item.show ();
+      settings_menu.add (submenu_separator_item);
+
       var scroll_action = new Gtk.CheckMenuItem.with_mnemonic (_("_Scroll to switch workspaces"));
       scroll_action.active = desktop_prefs.EnableScrolling;
       scroll_action.activate.connect (() => {
@@ -219,19 +231,20 @@ namespace Docky {
       items.add (separator_item);
 
       for (int i = 0; i < workspace_count; i++) {
-        unowned Wnck.Workspace? workspace = screen.get_workspace (i);
+        int num = desktop_prefs.ReversedMenuOrder ? (i - workspace_count+1) * -1 : i;
+        unowned Wnck.Workspace? workspace = screen.get_workspace (num);
         string name = workspace != null? workspace.get_name () : _("Workspace %d").printf (i + 1);
 
         var item = new Gtk.MenuItem.with_label (name);
 
-        if (i == current_workspace) {
+        if (num == current_workspace) {
           var label = item.get_child () as Gtk.Label;
           if (label != null) {
             label.set_markup ("<b>" + label.get_text () + "</b>");
           }
         }
 
-        int workspace_num = i;
+        int workspace_num = num;
         item.activate.connect (() => {
           switch_to_workspace (workspace_num);
         });

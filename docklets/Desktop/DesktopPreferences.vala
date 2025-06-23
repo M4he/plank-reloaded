@@ -19,6 +19,10 @@ using Plank;
 
 namespace Docky {
   public class DesktopPreferences : DockItemPreferences {
+    [Description (nick = "reversed-menu-order",
+                  blurb = "Reverse the order of workspaces in the context menu")]
+    public bool ReversedMenuOrder { get; set; default = false; }
+
     [Description (nick = "scroll-action",
                   blurb = "Use scroll gesture to change workspaces")]
     public bool EnableScrolling { get; set; default = false; }
@@ -37,6 +41,7 @@ namespace Docky {
     }
 
     protected override void reset_properties () {
+        ReversedMenuOrder = false;
         EnableScrolling = false;
         InvertDirection = false;
         WrapAround = true;
